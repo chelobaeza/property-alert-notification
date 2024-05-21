@@ -1,0 +1,259 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "property-alert-notification",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/notifications/": {
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Schedule Notification",
+                "operationId": "schedule_notification_api_v1_notifications__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/preferences/{user_id}": {
+            "get": {
+                "tags": [
+                    "preferences"
+                ],
+                "summary": "Read Preference",
+                "operationId": "read_preference_api_v1_preferences__user_id__get",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "User Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferencePublic"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "preferences"
+                ],
+                "summary": "Create Preference",
+                "operationId": "create_preference_api_v1_preferences__user_id__post",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "User Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PreferenceCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreferencePublic"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "NotificationCreate": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "title": "User Id"
+                    },
+                    "user_email": {
+                        "type": "string",
+                        "title": "User Email"
+                    },
+                    "user_phone_number": {
+                        "type": "string",
+                        "title": "User Phone Number"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title",
+                    "message",
+                    "user_id",
+                    "user_email",
+                    "user_phone_number"
+                ],
+                "title": "NotificationCreate"
+            },
+            "PreferenceCreate": {
+                "properties": {
+                    "email_enabled": {
+                        "type": "boolean",
+                        "title": "Email Enabled"
+                    },
+                    "sms_enabled": {
+                        "type": "boolean",
+                        "title": "Sms Enabled"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "email_enabled",
+                    "sms_enabled"
+                ],
+                "title": "PreferenceCreate"
+            },
+            "PreferencePublic": {
+                "properties": {
+                    "email_enabled": {
+                        "type": "boolean",
+                        "title": "Email Enabled"
+                    },
+                    "sms_enabled": {
+                        "type": "boolean",
+                        "title": "Sms Enabled"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "email_enabled",
+                    "sms_enabled"
+                ],
+                "title": "PreferencePublic"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

@@ -1,0 +1,4 @@
+
+
+class QueueAdapterException(Exception):
+    pass
